@@ -145,60 +145,6 @@ Android 10 起限制后台读取剪贴板。悬浮窗服务处于后台状态时
 
 目标 App 可能使用自定义输入框、安全输入框或网页控件，系统无障碍接口无法稳定写入。这种情况不是权限问题，而是目标输入框不支持。
 
-## 上传到 GitHub
-
-### 1. 初始化 Git 仓库
-
-在项目目录打开 PowerShell：
-
-```powershell
-cd C:\Users\zhanglei\Desktop\ClipboardPasteApp
-git init
-git add .
-git commit -m "Initial release"
-```
-
-### 2. 在 GitHub 创建仓库
-
-在 GitHub 新建仓库，例如：
-
-```text
-ClipboardPasteApp
-```
-
-不要勾选自动创建 README，因为项目里已经有 README。
-
-### 3. 关联远程仓库并推送
-
-把下面 URL 换成你自己的 GitHub 仓库地址：
-
-```powershell
-git branch -M main
-git remote add origin https://github.com/你的用户名/ClipboardPasteApp.git
-git push -u origin main
-```
-
-### 4. 发布 APK
-
-GitHub 页面进入：
-
-```text
-Releases > Draft a new release
-```
-
-填写版本号，例如：
-
-```text
-v1.3
-```
-
-上传 APK：
-
-```text
-C:\Users\zhanglei\Desktop\剪贴板粘贴助手.apk
-```
-
-发布后，其他人可以从 Releases 页面下载 APK。
 
 ## 项目结构
 
