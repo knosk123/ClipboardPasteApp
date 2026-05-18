@@ -1,0 +1,226 @@
+# 剪贴板粘贴助手
+
+一个 Android 小工具，用无障碍服务模拟逐字输入，帮助在部分禁止系统粘贴的输入框中输入文本。
+
+## 功能
+
+- 悬浮按钮跨应用触发输入。
+- 支持从应用内输入框准备文本。
+- 支持在应用前台读取系统剪贴板并缓存为待输入文本。
+- 逐字模拟输入，显示输入进度。
+- 最近输入记录，可一键复用。
+- 支持 Android 10+ 的剪贴板后台读取限制：悬浮窗不会在后台直接读取系统剪贴板，而是使用应用前台准备好的文本。
+
+## 重要说明
+
+本应用依赖无障碍服务来定位当前获得焦点的可编辑输入框，并执行 `ACTION_SET_TEXT` 模拟输入。它不会读取屏幕密码，也不会上传数据。
+
+由于 Android 系统限制，后台应用或悬浮窗服务通常不能可靠读取系统剪贴板。因此正确流程是先在本应用中准备文本，再切到目标 App 使用悬浮按钮输入。
+
+## 权限说明
+
+- 无障碍服务：用于找到当前输入框，并把待输入文本逐步写入输入框。
+- 悬浮窗权限：用于显示“粘”按钮，方便在其他 App 中触发输入。
+- 通知权限：Android 13+ 上用于显示前台服务通知。
+- 前台服务权限：保持悬浮窗服务稳定运行。
+
+## 安装
+
+### 方式一：安装 APK
+
+将 APK 传到手机后安装：
+
+```text
+剪贴板粘贴助手.apk
+```
+
+如果系统提示“禁止安装未知来源应用”，请在系统设置里允许当前文件管理器或浏览器安装未知来源应用。
+
+### 方式二：从源码构建
+
+环境要求：
+
+- Android Studio
+- Android SDK 34 或更高
+- JDK 17/21，推荐使用 Android Studio 自带 JBR
+
+打开项目：
+
+```text
+C:\Users\zhanglei\Desktop\ClipboardPasteApp
+```
+
+Android Studio 中选择：
+
+```text
+File > Open > 选择 ClipboardPasteApp 文件夹
+```
+
+如果 Gradle JDK 报错，进入：
+
+```text
+File > Settings > Build, Execution, Deployment > Build Tools > Gradle
+```
+
+把 `Gradle JDK` 设为 Android Studio bundled JDK。
+
+命令行构建：
+
+```powershell
+.\gradlew.bat :app:assembleDebug
+```
+
+构建产物：
+
+```text
+app\build\outputs\apk\debug\app-debug.apk
+```
+
+## 使用教程
+
+### 第一次使用
+
+1. 打开“剪贴板粘贴助手”。
+2. 点击“去开启”，进入系统无障碍设置。
+3. 找到“剪贴板粘贴助手”，开启无障碍服务。
+4. 返回应用，点击“去授权”，允许悬浮窗权限。
+5. Android 13+ 如果弹出通知权限请求，选择允许。
+
+### 输入应用内文本
+
+1. 在本应用输入框中输入要粘贴的内容。
+2. 点击“启动悬浮窗”。
+3. 切换到目标 App。
+4. 先点击目标输入框，让光标出现。
+5. 点击屏幕边缘的“粘”悬浮按钮。
+6. 等待进度完成。
+
+### 使用系统剪贴板文本
+
+1. 在其他地方复制文本。
+2. 打开本应用。
+3. 确保本应用输入框为空。
+4. 点击“启动悬浮窗”。
+5. 切换到目标 App。
+6. 点击目标输入框，让光标出现。
+7. 点击“粘”悬浮按钮。
+
+注意：必须先回到本应用点击“启动悬浮窗”或“更新输入文本”。直接在其他 App 复制后立刻点悬浮窗，Android 可能不允许后台读取剪贴板。
+
+### 更新待输入文本
+
+悬浮窗已经启动时：
+
+1. 回到本应用。
+2. 修改输入框内容，或清空输入框后复制新文本。
+3. 点击“更新输入文本”。
+4. 回目标 App 继续点悬浮按钮输入。
+
+## 常见问题
+
+### 打开目标 App 后提示没有可输入文本
+
+请先回到本应用准备文本：
+
+- 输入框有内容时，会使用输入框内容。
+- 输入框为空时，会读取当前系统剪贴板。
+
+准备成功后再切到目标 App。
+
+### 点击悬浮按钮后提示未找到可输入的文本框
+
+先点击目标 App 的输入框，让光标出现，再点击悬浮按钮。
+
+有些输入框不是标准 Android 可编辑控件，可能不支持无障碍 `ACTION_SET_TEXT`。
+
+### 为什么不能直接读取剪贴板
+
+Android 10 起限制后台读取剪贴板。悬浮窗服务处于后台状态时，系统可能返回空剪贴板。应用采用“前台准备文本、后台使用缓存”的方式绕过这个系统限制。
+
+### 输入很慢
+
+应用会按字符逐步输入，默认每个字符间隔约 30-80ms，用于模拟人工输入。如果文本很长，需要等待。
+
+### 某些 App 中无效
+
+目标 App 可能使用自定义输入框、安全输入框或网页控件，系统无障碍接口无法稳定写入。这种情况不是权限问题，而是目标输入框不支持。
+
+## 上传到 GitHub
+
+### 1. 初始化 Git 仓库
+
+在项目目录打开 PowerShell：
+
+```powershell
+cd C:\Users\zhanglei\Desktop\ClipboardPasteApp
+git init
+git add .
+git commit -m "Initial release"
+```
+
+### 2. 在 GitHub 创建仓库
+
+在 GitHub 新建仓库，例如：
+
+```text
+ClipboardPasteApp
+```
+
+不要勾选自动创建 README，因为项目里已经有 README。
+
+### 3. 关联远程仓库并推送
+
+把下面 URL 换成你自己的 GitHub 仓库地址：
+
+```powershell
+git branch -M main
+git remote add origin https://github.com/你的用户名/ClipboardPasteApp.git
+git push -u origin main
+```
+
+### 4. 发布 APK
+
+GitHub 页面进入：
+
+```text
+Releases > Draft a new release
+```
+
+填写版本号，例如：
+
+```text
+v1.3
+```
+
+上传 APK：
+
+```text
+C:\Users\zhanglei\Desktop\剪贴板粘贴助手.apk
+```
+
+发布后，其他人可以从 Releases 页面下载 APK。
+
+## 项目结构
+
+```text
+app/src/main/java/com/paste/clipboard/
+  MainActivity.kt                 主界面、权限状态、准备待输入文本
+  FloatingWindowService.kt         悬浮窗和跨应用触发输入
+  PasteAccessibilityService.kt     无障碍服务入口
+  TypingHelper.kt                  逐字输入逻辑
+  HistoryManager.kt                最近输入记录
+  PasteTextStore.kt                待输入文本缓存
+  PasteApp.kt                      通知渠道初始化
+```
+
+## 版本
+
+当前版本：
+
+```text
+1.3
+```
+
+## 许可
+
+本项目使用 MIT License。

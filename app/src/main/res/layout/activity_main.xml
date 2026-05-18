@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="32dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="#1976D2"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_description"
+        android:textSize="14sp"
+        android:textColor="#666666"
+        android:gravity="center"
+        android:layout_marginBottom="40dp" />
+
+    <!-- Accessibility Service Status -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/card_bg"
+        android:padding="16dp"
+        android:layout_marginBottom="12dp">
+
+        <TextView
+            android:id="@+id/tvAccessibilityStatus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/accessibility_disabled"
+            android:textSize="16sp"
+            android:textColor="#F44336" />
+
+        <Button
+            android:id="@+id/btnAccessibility"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="@string/open_settings"
+            android:textSize="14sp"
+            android:textAllCaps="false" />
+    </LinearLayout>
+
+    <!-- Overlay Permission Status -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/card_bg"
+        android:padding="16dp"
+        android:layout_marginBottom="12dp">
+
+        <TextView
+            android:id="@+id/tvOverlayStatus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/overlay_disabled"
+            android:textSize="16sp"
+            android:textColor="#F44336" />
+
+        <Button
+            android:id="@+id/btnOverlay"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="@string/grant_permission"
+            android:textSize="14sp"
+            android:textAllCaps="false" />
+    </LinearLayout>
+
+    <!-- Text Input Area -->
+    <EditText
+        android:id="@+id/etCustomText"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:hint="@string/custom_text_hint"
+        android:gravity="top|start"
+        android:padding="12dp"
+        android:background="@drawable/card_bg"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="12dp"
+        android:importantForAutofill="no"
+        android:inputType="textMultiLine"
+        android:textSize="15sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/clipboard_fallback_hint"
+        android:textSize="12sp"
+        android:textColor="#999999"
+        android:gravity="center"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Start Button -->
+    <Button
+        android:id="@+id/btnStartService"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="@string/start_floating_window"
+        android:textSize="18sp"
+        android:textAllCaps="false"
+        android:backgroundTint="#1976D2"
+        android:layout_marginBottom="20dp" />
+
+    <!-- History Section -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/history_title"
+        android:textSize="14sp"
+        android:textColor="#999999"
+        android:layout_marginBottom="8dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvHistory"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingBottom="8dp" />
+
+</LinearLayout>
